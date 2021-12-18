@@ -16,6 +16,8 @@ import javax.persistence.Table;
 
 import org.springframework.lang.NonNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table (name = "appointmentbooking")
 public class Appointmentbooking {
@@ -36,6 +38,7 @@ public class Appointmentbooking {
 	@JoinColumn(name = "deptid")
 	private Department Department_Appoint;
 	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER,optional = false)
 	@JoinColumn(name = "CustID")
 	private Customers CustomersProf;

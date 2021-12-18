@@ -1,5 +1,6 @@
 package com.appointmentapp.controller;
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.hql.internal.ast.tree.IsNullLogicOperatorNode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import com.appointmentapp.entities.Customers;
 import com.appointmentapp.entities.Department;
 import com.appointmentapp.entities.Deptschedule;
 import com.appointmentapp.entities.Maindepartment;
+import com.appointmentapp.entities.Wards;
 import com.appointmentapp.entities.timeslot;
 import com.appointmentapp.repository.CustomerRepository;
 import com.appointmentapp.services.Service_;
@@ -30,12 +32,11 @@ public class Controller_ {
 	public String findAll() {
 		return "Hello world";
 	}
-	
-	
-	
-	
 	@PostMapping("/newcustomer")
 	public Customers newCustomer(@RequestBody Customers customer) {
+		Wards ward=new Wards();
+		ward.setWardID(1);
+		customer.setWard(ward);
 		return service.newCustomer(customer);
 	}
 	@PostMapping ("/bookappointment")
@@ -75,5 +76,17 @@ return service.newAppointmentbooking(appointbooking);
 	{
 		return service.newdepartment(timeslot_);
 	}
+	@PostMapping("/addward")
+	public Wards newwards(@RequestBody Wards wards) {
+		return service.newwards(wards);
+	}
 	
+	@GetMapping("/findallwards")
+	public List<Wards> findall() {
+		return service.findAll();
+	}
+	@GetMapping("/findallcustomers")
+	public List<Customers> findallcustomers() {
+		return service.findAllCustomers();
+	}
 }
