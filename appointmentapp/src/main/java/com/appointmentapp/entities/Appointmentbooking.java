@@ -40,7 +40,7 @@ public class Appointmentbooking {
 	
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER,optional = false)
-	@JoinColumn(name = "CustID")
+	@JoinColumn(name = "custid")
 	private Customers CustomersProf;
 	
 	@OneToOne(cascade = CascadeType.ALL)

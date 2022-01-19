@@ -1,14 +1,20 @@
 package com.appointmentapp.controller;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.hibernate.hql.internal.ast.tree.IsNullLogicOperatorNode;
+import org.hibernate.query.criteria.internal.expression.function.AggregationFunction.COUNT;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 //import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.appointmentapp.entities.Appointmentbooking;
@@ -34,9 +40,9 @@ public class Controller_ {
 	}
 	@PostMapping("/newcustomer")
 	public Customers newCustomer(@RequestBody Customers customer) {
-		Wards ward=new Wards();
-		ward.setWardID(1);
-		customer.setWard(ward);
+//		Wards ward=new Wards();
+//		ward.setWardID(wardid);
+//		customer.setWards(ward);
 		return service.newCustomer(customer);
 	}
 	@PostMapping ("/bookappointment")
@@ -86,7 +92,30 @@ return service.newAppointmentbooking(appointbooking);
 		return service.findAll();
 	}
 	@GetMapping("/findallcustomers")
-	public List<Customers> findallcustomers() {
-		return service.findAllCustomers();
+	public ResponseEntity<List<Customers>> findallcustomers() {
+//		Integer customerlist;
+//		customerlist=COUNT(service.)
+		List<Customers> list= service.findAllCustomers();
+		if(list.isEmpty()) {
+			return  ResponseEntity.noContent().header("message", "data not found").build();
+		}
+		return  ResponseEntity.ok(list);
+		}
+	@GetMapping("GetMainDept")
+	public ResponseEntity<List<Maindepartment>> getAllDepartment() {
+		
+		List<Maindepartment> list= service.getdepartm();
+		if(list.isEmpty()) {
+			return  ResponseEntity.notFound().header("message", "data not found").build();
+		}
+		return  ResponseEntity.ok(list);
+	}
+	@GetMapping("/AllAppointments")
+	public List<Appointmentbooking> getallAppoitment() {
+		return service.getallappointment();
+	}
+	@GetMapping("/findCustomerByid/{id}")
+	public Optional<Customers> findbyid(@PathVariable ("id") int id) {
+		return service.findCustomerByid(id);
 	}
 }

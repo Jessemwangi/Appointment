@@ -1,5 +1,6 @@
 package com.appointmentapp.entities;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,11 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table (name = "Wards")
-public class Wards {
+public class Wards implements Serializable{
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private int wardID;
@@ -23,20 +24,20 @@ public class Wards {
 
 //relationship
 //	@JsonIgnore
-@OneToMany (mappedBy = "ward",cascade = CascadeType.ALL)
-private Set<Customers> customers=new HashSet<>();
+@OneToMany (mappedBy = "wards",cascade = CascadeType.ALL)
+private Set<Customers> Ward_Customer=new HashSet<Customers>();
 
 public Wards() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-public Wards(int wardID, String wardname, Set<Customers> customers) {
+public Wards(int wardID, String wardname, Set<Customers> ward_Customer) {
 	super();
 	this.wardID = wardID;
 	Wardname = wardname;
-	this.customers = customers;
 }
+
 
 public int getWardID() {
 	return wardID;
@@ -54,15 +55,12 @@ public void setWardname(String wardname) {
 	Wardname = wardname;
 }
 
-public Set<Customers> getCustomers() {
-	return customers;
+@Override
+public String toString() {
+	return "Wards [wardID=" + wardID + ", Wardname=" + Wardname + ", getWardID()=" + getWardID() + ", getWardname()="
+			+ getWardname() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+			+ super.toString() + "]";
 }
-
-public void setCustomers(Set<Customers> customers) {
-	this.customers = customers;
-}
-
-
 
 
 }

@@ -1,5 +1,6 @@
 package com.appointmentapp.entities;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,11 +16,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "CustomersProf")
-public class Customers {
+public class Customers implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,20 +36,24 @@ public class Customers {
 	private String Gender;
 
 	// relationship
+//	@JsonIgnore
 	@OneToMany(mappedBy = "CustomersProf", cascade = CascadeType.ALL)
 	private Set<Appointmentbooking> Cust_to_Appointment = new HashSet<Appointmentbooking>();
 
-	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)//
-	@JoinColumn(name = "wardid")
-	private Wards ward;
+//	@JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)//
+	@JoinColumn(name = "wardID")
+	private Wards wards;
 
-	public Customers() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+//	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+//    @JoinColumn(name = "wardID", nullable = false)
+//    @OnDelete(action = OnDeleteAction.CASCADE)
+////    @JsonIgnore
+//    private Wards wards;
+	
+	
 	public Customers(int custID, String custEmail, String custFullName, String custPass, String custContacts,
-			String gender, Set<Appointmentbooking> cust_to_Appointment, Wards ward) {
+			String gender, Set<Appointmentbooking> cust_to_Appointment, Wards wards) {
 		super();
 		CustID = custID;
 		CustEmail = custEmail;
@@ -54,31 +62,13 @@ public class Customers {
 		CustContacts = custContacts;
 		Gender = gender;
 		Cust_to_Appointment = cust_to_Appointment;
-		this.ward = ward;
+		this.wards = wards;
 	}
 
-
-
-
-
-
-
-
-	public Wards getWard() {
-		return ward;
+	public Customers() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
-
-
-
-
-
-	public void setWard(Wards ward) {
-		this.ward = ward;
-	}
-
-
-
-
 
 	public int getCustID() {
 		return CustID;
@@ -86,14 +76,6 @@ public class Customers {
 
 	public void setCustID(int custID) {
 		CustID = custID;
-	}
-
-	public Set<Appointmentbooking> getCust_to_Appointment() {
-		return Cust_to_Appointment;
-	}
-
-	public void setCust_to_Appointment(Set<Appointmentbooking> cust_to_Appointment) {
-		Cust_to_Appointment = cust_to_Appointment;
 	}
 
 	public String getCustEmail() {
@@ -135,5 +117,26 @@ public class Customers {
 	public void setGender(String gender) {
 		Gender = gender;
 	}
+
+	public Set<Appointmentbooking> getCust_to_Appointment() {
+		return Cust_to_Appointment;
+	}
+
+	public void setCust_to_Appointment(Set<Appointmentbooking> cust_to_Appointment) {
+		Cust_to_Appointment = cust_to_Appointment;
+	}
+
+	public Wards getWards() {
+		return wards;
+	}
+
+	public void setWards(Wards wards) {
+		this.wards = wards;
+	}
+
+
+	
+
+	
 
 }

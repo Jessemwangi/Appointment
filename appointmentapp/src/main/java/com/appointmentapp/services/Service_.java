@@ -1,9 +1,14 @@
 package com.appointmentapp.services;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.appointmentapp.entities.Appointmentbooking;
 import com.appointmentapp.entities.Customers;
@@ -41,7 +46,7 @@ public class Service_ {
 	public WardsRepository wardsRepository;
 	
 	public Customers newCustomer(Customers customer) {
-
+		
 		return customerRepository.save(customer);
 	}
 	
@@ -77,6 +82,26 @@ public class Service_ {
 	public List<Customers> findAllCustomers()
 	{
 		return customerRepository.findAll();
+	}
+	public List<Maindepartment> getdepartm()
+		 {
+		return mainDeptrepository.findAll();
+//		return "ok";
+	}
+	public List<Appointmentbooking> getallappointment()
+	 {
+	
+		return Bookingrepository.findAll();
+}
+	@RequestMapping
+	@ResponseBody
+	public Map<String, Boolean> admin() {
+	    return Collections.singletonMap("success", true);
+	}
+
+	public Optional<Customers> findCustomerByid(int id) {
+		// TODO Auto-generated method stub
+		return customerRepository.findById(id);
 	}
 }
 
